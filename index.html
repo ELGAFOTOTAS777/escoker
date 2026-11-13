@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Menú ESCOKER</title>
+    <link rel="icon" href="img/logo.png">
+    <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+
+<!--
+    Esta pagina es la que abre el QR. Nunca cambia.
+    1. Revisa si la compu de la cooperativa esta en linea.
+    2. Si si, manda al menu donde se puede pedir.
+    3. Si no, enseña el menu con precios para pedir en la caja.
+-->
+
+<header class="encabezado">
+    <img src="img/logo.png" alt="" class="logo">
+    <div>
+        <h1>ESCOKER</h1>
+        <p>Menú de la cooperativa</p>
+    </div>
+</header>
+
+<div class="cargando" id="cargando">
+    <div class="rueda"></div>
+    Abriendo el menú...
+</div>
+
+<div id="respaldo">
+
+    <div class="aviso aviso-cerrado">
+        Ahorita no se puede pedir desde el celular. Revisa el menú y pide directo en la caja.
+    </div>
+
+    <button class="btn-reintentar" onclick="location.reload()">Intentar otra vez</button>
+
+    <div class="filtros">
+        <div class="chips" id="chips"></div>
+    </div>
+
+    <main class="productos" id="productos"></main>
+</div>
+
+<script>
+    // =========================================
+    // DIRECCION DEL MENU EN VIVO (la de Tailscale)
+    // Si algun dia cambia, solo se cambia esta linea.
+    // =========================================
+    const MENU_EN_VIVO = "https://desktop-p3vrlko.tail0d7e7f.ts.net/menu/";
+
+    // Menu de respaldo (cuando la compu no responde)
+    const MENU = [
+        ["Hamburguesas", 100, "Comida", "hamburguesas.png"],
+        ["Mollepizzas", 45, "Comida", "mollepizzas.png"],
+        ["Pizzitas", 50, "Comida", "pizzitas.png"],
+        ["Magnificarne", 800, "Comida", "magnificarne.png"],
+        ["pozonque", 22, "Comida", "pozole.png"],
+        ["Sabritas", 22, "Snacks", "sabritas.png"],
+        ["Doritos", 22, "Snacks", "doritos.png"],
+        ["Agua de piña con apio", 20, "Bebidas", "agua_pina.png"],
+        ["Coca cola", 22, "Bebidas", "refresco.png"],
+        ["Brownies", 40, "Postres", "brownies.png"]
+    ];
+
+    function mostrarRespaldo() {
+
+        document.getElementById("cargando").style.display = "none";
+        document.getElementById("respaldo").style.display = "block";
+
+        const lista = document.getElementById("productos");
+        const chips = document.getElementById("chips");
+        const categorias = ["Todos"];
+
+        MENU.forEach(function (p) {
+
+            if (!categorias.includes(p[2])) categorias.push(p[2]);
+
+            const div = document.createElement("div");
+            div.className = "producto";
+            div.dataset.categoria = p[2];
+            div.innerHTML = "<img src='img/" + p[3] + "' alt=''><h3></h3>" +
+                "<div class='fila-precio'><span class='precio'>$" + p[1].toFixed(2) + "</span></div>";
+            div.querySelector("h3").textContent = p[0];
+            lista.appendChild(div);
+        });
+
+        categorias.forEach(function (c, i) {
+
+            const b = document.createElement("button");
+            b.className = "chip" + (i == 0 ? " activo" : "");
+            b.textContent = c;
+            b.onclick = function () {
+                document.querySelectorAll(".chip").forEach(function (x) { x.classList.remove("activo"); });
+                b.classList.add("activo");
+                document.querySelectorAll(".producto").forEach(function (t) {
+                    t.style.display = (c == "Todos" || t.dataset.categoria == c) ? "" : "none";
+                });
+            };
+            chips.appendChild(b);
+        });
+    }
+
+    // =========================================
+    // REVISAR SI LA COMPU ESTA EN LINEA
+    // Se pide el logo del menu en vivo; si carga, la compu responde.
+    // =========================================
+    if (MENU_EN_VIVO.includes("CAMBIAR-AQUI")) {
+
+        mostrarRespaldo();
+
+    } else {
+
+        let listo = false;
+        const prueba = new Image();
+
+        prueba.onload = function () {
+            if (listo) return;
+            listo = true;
+            location.replace(MENU_EN_VIVO);
+        };
+
+        prueba.onerror = function () {
+            if (listo) return;
+            listo = true;
+            mostrarRespaldo();
+        };
+
+        // Si en 5 segundos no responde, se enseña el respaldo
+        setTimeout(function () {
+            if (listo) return;
+            listo = true;
+            mostrarRespaldo();
+        }, 5000);
+
+        prueba.src = MENU_EN_VIVO + "img/logo.png?t=" + Date.now();
+    }
+</script>
+</body>
+</html>

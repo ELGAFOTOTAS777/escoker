@@ -1,0 +1,729 @@
+/* Mismos colores que el programa de Java */
+:root {
+    --fondo: #161821;
+    --panel: #1f222e;
+    --panel2: #282c3b;
+    --borde: #3a3f54;
+    --texto: #eceef5;
+    --texto2: #949ab2;
+    --naranja: #ff8a3d;
+    --verde: #34c780;
+    --rojo: #ef5350;
+    --amarillo: #fabc3c;
+    --azul: #588cff;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: var(--fondo);
+    color: var(--texto);
+    font-family: "Segoe UI", Roboto, Arial, sans-serif;
+    padding-bottom: 100px;
+}
+
+button, input {
+    font-family: inherit;
+    font-size: 16px;
+}
+
+/* ===================== ENCABEZADO ===================== */
+.encabezado {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 18px 16px;
+    background: linear-gradient(120deg, #ff9646, #e24c34);
+}
+
+.encabezado .logo {
+    width: 46px;
+    height: 46px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+}
+
+.encabezado h1 {
+    font-size: 22px;
+    letter-spacing: 1px;
+}
+
+.encabezado p {
+    font-size: 14px;
+    opacity: 0.9;
+}
+
+/* ===================== AVISOS ===================== */
+.aviso {
+    display: block;
+    margin: 14px 16px 0;
+    padding: 12px 14px;
+    border-radius: 12px;
+    font-size: 15px;
+    line-height: 1.4;
+    text-decoration: none;
+}
+
+.aviso-error {
+    background: rgba(239, 83, 80, 0.15);
+    color: #ff8a87;
+    border: 1px solid rgba(239, 83, 80, 0.4);
+}
+
+.aviso-cerrado {
+    background: rgba(250, 188, 60, 0.12);
+    color: var(--amarillo);
+    border: 1px solid rgba(250, 188, 60, 0.4);
+}
+
+.aviso-pedido {
+    background: rgba(88, 140, 255, 0.14);
+    color: #9db8ff;
+    border: 1px solid rgba(88, 140, 255, 0.45);
+}
+
+/* ===================== FILTROS ===================== */
+.filtros {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    background: var(--fondo);
+    padding: 14px 16px 10px;
+}
+
+.filtros input {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 12px;
+    border: 1px solid var(--borde);
+    background: var(--panel2);
+    color: var(--texto);
+    outline: none;
+}
+
+.filtros input:focus {
+    border-color: var(--naranja);
+}
+
+.chips {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+    overflow-x: auto;
+    padding-bottom: 2px;
+}
+
+.chip {
+    flex-shrink: 0;
+    padding: 8px 16px;
+    border-radius: 30px;
+    border: 1.5px solid var(--borde);
+    background: transparent;
+    color: var(--texto2);
+    font-weight: bold;
+    font-size: 14px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.chip.activo {
+    background: var(--naranja);
+    border-color: var(--naranja);
+    color: white;
+}
+
+/* ===================== PRODUCTOS ===================== */
+.productos {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    padding: 6px 16px 16px;
+}
+
+@media (min-width: 640px) {
+    .productos {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (min-width: 960px) {
+    .productos {
+        grid-template-columns: repeat(4, 1fr);
+        max-width: 1100px;
+        margin: 0 auto;
+    }
+}
+
+.producto {
+    background: var(--panel);
+    border: 1.5px solid transparent;
+    border-radius: 16px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+}
+
+.producto.en-pedido {
+    border-color: var(--naranja);
+}
+
+.producto img {
+    width: 100%;
+    max-width: 130px;
+    aspect-ratio: 1;
+    margin: 0 auto 8px;
+    display: block;
+}
+
+.producto h3 {
+    font-size: 15px;
+    line-height: 1.25;
+    flex-grow: 1;
+}
+
+.fila-precio {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px;
+    margin: 6px 0 10px;
+    flex-wrap: wrap;
+}
+
+.precio {
+    color: var(--naranja);
+    font-weight: bold;
+    font-size: 17px;
+}
+
+.etiqueta {
+    font-size: 11px;
+    font-weight: bold;
+    padding: 3px 8px;
+    border-radius: 20px;
+}
+
+.etiqueta.roja {
+    background: rgba(239, 83, 80, 0.18);
+    color: var(--rojo);
+}
+
+.etiqueta.amarilla {
+    background: rgba(250, 188, 60, 0.16);
+    color: var(--amarillo);
+}
+
+.producto.agotado img,
+.producto.agotado h3,
+.producto.agotado .precio {
+    opacity: 0.35;
+}
+
+/* Boton agregar y contador */
+.btn-agregar {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    background: var(--naranja);
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.producto .contador {
+    display: none;
+}
+
+.producto.en-pedido .btn-agregar {
+    display: none;
+}
+
+.producto.en-pedido .contador {
+    display: flex;
+}
+
+.contador {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--panel2);
+    border-radius: 10px;
+    padding: 3px;
+}
+
+.contador button {
+    width: 36px;
+    height: 34px;
+    border: none;
+    border-radius: 8px;
+    background: var(--naranja);
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.contador span {
+    font-weight: bold;
+    min-width: 28px;
+    text-align: center;
+}
+
+.vacio {
+    display: none;
+    text-align: center;
+    color: var(--texto2);
+    padding: 40px 16px;
+}
+
+/* ===================== BARRA DE ABAJO ===================== */
+.barra-pedido {
+    position: fixed;
+    left: 12px;
+    right: 12px;
+    bottom: 12px;
+    display: none;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    border: none;
+    border-radius: 16px;
+    background: var(--naranja);
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45);
+    z-index: 10;
+}
+
+.barra-pedido.visible {
+    display: flex;
+}
+
+.barra-total {
+    font-weight: bold;
+    font-size: 19px;
+}
+
+/* ===================== HOJA DEL PEDIDO ===================== */
+.fondo-hoja {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    display: none;
+    z-index: 20;
+}
+
+.fondo-hoja.visible {
+    display: block;
+}
+
+.hoja {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    max-height: 88vh;
+    overflow-y: auto;
+    background: var(--panel);
+    border-radius: 22px 22px 0 0;
+    padding: 20px 18px 26px;
+    transform: translateY(105%);
+    transition: transform 0.25s;
+    z-index: 30;
+    max-width: 560px;
+    margin: 0 auto;
+}
+
+.hoja.abierta {
+    transform: translateY(0);
+}
+
+.hoja-titulo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.cerrar {
+    background: none;
+    border: 1px solid var(--borde);
+    color: var(--texto2);
+    border-radius: 10px;
+    padding: 6px 12px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.fila-pedido {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--panel2);
+    border-radius: 12px;
+    padding: 8px 10px;
+    margin-bottom: 8px;
+}
+
+.fila-pedido img {
+    width: 44px;
+    height: 44px;
+}
+
+.fila-texto {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.fila-texto small {
+    color: var(--texto2);
+}
+
+.fila-pedido .contador {
+    background: var(--panel);
+}
+
+.fila-pedido .contador button {
+    width: 32px;
+    height: 30px;
+    font-size: 18px;
+}
+
+.total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--borde);
+    margin: 12px 0 6px;
+    padding-top: 12px;
+    font-size: 17px;
+}
+
+.total b {
+    font-size: 24px;
+}
+
+.hoja label {
+    display: block;
+    margin: 12px 0 6px;
+    font-size: 13px;
+    font-weight: bold;
+    color: var(--texto2);
+}
+
+.hoja input {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 12px;
+    border: 1px solid var(--borde);
+    background: var(--panel2);
+    color: var(--texto);
+    outline: none;
+}
+
+.hoja input:focus {
+    border-color: var(--naranja);
+}
+
+.btn-enviar {
+    display: block;
+    width: 100%;
+    margin-top: 18px;
+    padding: 15px;
+    border: none;
+    border-radius: 14px;
+    background: var(--verde);
+    color: white;
+    font-size: 17px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.btn-enviar:disabled {
+    opacity: 0.6;
+}
+
+.ayuda {
+    text-align: center;
+    color: var(--texto2);
+    font-size: 13px;
+    margin-top: 10px;
+}
+
+/* ===================== SEGUIMIENTO DEL PEDIDO ===================== */
+.tarjeta-estado {
+    margin: 18px 16px 0;
+    padding: 24px 18px;
+    border-radius: 20px;
+    background: var(--panel);
+    text-align: center;
+    border: 1.5px solid var(--borde);
+}
+
+.tarjeta-estado h2 {
+    font-size: 21px;
+    margin: 12px 0 6px;
+}
+
+.tarjeta-estado p {
+    color: var(--texto2);
+    line-height: 1.4;
+}
+
+.turno-texto {
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.tarjeta-estado .turno {
+    font-size: 64px;
+    font-weight: bold;
+    color: var(--texto);
+    line-height: 1.1;
+}
+
+.a-pagar {
+    font-size: 30px;
+    font-weight: bold;
+    color: var(--naranja) !important;
+    margin-top: 8px;
+}
+
+.estado-por-cobrar { border-color: var(--naranja); }
+.estado-registrado, .estado-preparando { border-color: var(--amarillo); }
+.estado-listo { border-color: var(--verde); background: rgba(52, 199, 128, 0.1); }
+.estado-listo h2 { color: var(--verde); }
+.estado-cancelado { border-color: var(--rojo); }
+.estado-cancelado h2 { color: var(--rojo); }
+
+.pasos {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 22px;
+}
+
+.paso {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    color: var(--texto2);
+}
+
+.paso span {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: 2px solid var(--borde);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+.paso small {
+    font-size: 12px;
+}
+
+.paso.hecho span {
+    background: var(--verde);
+    border-color: var(--verde);
+    color: white;
+}
+
+.paso.actual span {
+    border-color: var(--naranja);
+    color: var(--naranja);
+}
+
+.paso.actual small {
+    color: var(--texto);
+    font-weight: bold;
+}
+
+.resumen {
+    margin: 14px 16px 0;
+    padding: 18px;
+    border-radius: 20px;
+    background: var(--panel);
+}
+
+.resumen h3 {
+    margin-bottom: 10px;
+}
+
+.linea {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 0;
+}
+
+.total-linea {
+    border-top: 1px solid var(--borde);
+    margin-top: 8px;
+    padding-top: 12px;
+    font-size: 17px;
+}
+
+.nota {
+    color: var(--amarillo);
+    margin-top: 8px;
+}
+
+.link-menu {
+    display: block;
+    text-align: center;
+    color: var(--naranja);
+    margin: 20px;
+    font-weight: bold;
+}
+
+/* ===================== PAGINA DEL QR ===================== */
+.pagina-qr {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 30px 16px;
+}
+
+.cartel {
+    background: white;
+    color: #16181f;
+    width: 400px;
+    max-width: 100%;
+    border-radius: 24px;
+    padding: 30px 24px;
+    text-align: center;
+    border-top: 14px solid var(--naranja);
+}
+
+.logo-grande {
+    width: 70px;
+    height: 70px;
+    border-radius: 16px;
+}
+
+.cartel h1 {
+    font-size: 34px;
+    letter-spacing: 2px;
+    margin-top: 6px;
+}
+
+.cartel-sub {
+    color: #666;
+    margin-bottom: 14px;
+}
+
+.cartel canvas {
+    width: 300px;
+    max-width: 100%;
+    height: auto;
+}
+
+.cartel h2 {
+    color: #e24c34;
+    font-size: 22px;
+    margin-top: 10px;
+}
+
+.cartel-url {
+    color: #888;
+    font-size: 13px;
+    margin-top: 6px;
+    word-break: break-all;
+}
+
+.instrucciones {
+    background: var(--panel);
+    border-radius: 20px;
+    padding: 22px;
+    width: 400px;
+    max-width: 100%;
+    line-height: 1.5;
+}
+
+.instrucciones h3 {
+    margin-bottom: 10px;
+}
+
+.instrucciones p {
+    color: var(--texto2);
+    margin: 10px 0;
+}
+
+.instrucciones .chips {
+    flex-wrap: wrap;
+    overflow: visible;
+}
+
+.instrucciones .aviso {
+    margin: 10px 0;
+}
+
+/* Al imprimir solo sale el cartel */
+@media print {
+    body {
+        background: white;
+        padding: 0;
+    }
+
+    .instrucciones {
+        display: none;
+    }
+
+    .cartel {
+        border: 2px solid #ddd;
+        border-top: 14px solid var(--naranja);
+    }
+}
+
+/* ===================== PAGINA DE ENTRADA (GitHub) ===================== */
+.cargando {
+    text-align: center;
+    padding: 80px 20px;
+    color: var(--texto2);
+}
+
+.rueda {
+    width: 46px;
+    height: 46px;
+    margin: 0 auto 18px;
+    border: 4px solid var(--panel2);
+    border-top-color: var(--naranja);
+    border-radius: 50%;
+    animation: girar 0.9s linear infinite;
+}
+
+@keyframes girar {
+    to { transform: rotate(360deg); }
+}
+
+.btn-reintentar {
+    display: block;
+    margin: 12px 16px 0;
+    padding: 12px;
+    width: calc(100% - 32px);
+    border: 1.5px solid var(--naranja);
+    border-radius: 12px;
+    background: transparent;
+    color: var(--naranja);
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#respaldo {
+    display: none;
+}

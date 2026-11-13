@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>QR del menú - ESCOKER</title>
+    <link rel="icon" href="img/logo.png">
+    <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body class="pagina-qr">
+
+<!-- Cartel para imprimir. El QR lleva a la pagina principal de este sitio. -->
+
+<div class="cartel">
+    <img src="img/logo.png" alt="" class="logo-grande">
+    <h1>ESCOKER</h1>
+    <p class="cartel-sub">Menú de la cooperativa</p>
+
+    <canvas id="qr" width="320" height="320"></canvas>
+
+    <h2>Escanea y pide desde tu celular</h2>
+    <p class="cartel-url" id="url"></p>
+</div>
+
+<div class="instrucciones">
+    <h3>Este QR no cambia</h3>
+    <p>Lleva a esta página de GitHub, que revisa sola si la compu de la cooperativa está en línea.</p>
+    <p>Si cambia la dirección de Tailscale, solo se edita una línea en <b>index.html</b> y este QR sigue sirviendo.</p>
+    <button class="btn-enviar" onclick="window.print()">Imprimir</button>
+</div>
+
+<script src="js/qrcode.js"></script>
+<script>
+    // Direccion de la pagina principal (la misma carpeta que este archivo)
+    const url = location.href.replace(/cartel\.html.*$/, "");
+
+    document.getElementById("url").textContent = url;
+
+    const qr = new QRCode(-1, QRErrorCorrectLevel.M);
+    qr.addData(url);
+    qr.make();
+
+    const canvas = document.getElementById("qr");
+    const ctx = canvas.getContext("2d");
+    const n = qr.getModuleCount();
+    const margen = 4;
+    const tam = canvas.width / (n + margen * 2);
+
+    ctx.fillStyle = "#ffffff";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "#16181f";
+
+    for (let fila = 0; fila < n; fila++) {
+        for (let col = 0; col < n; col++) {
+            if (qr.isDark(fila, col)) {
+                ctx.fillRect(Math.floor((col + margen) * tam), Math.floor((fila + margen) * tam), Math.ceil(tam), Math.ceil(tam));
+            }
+        }
+    }
+</script>
+</body>
+</html>
